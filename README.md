@@ -1,12 +1,12 @@
-Salesforce Canvas Framework SDK.
+Salesforce Force.com Canvas SDK
 ============================
 
 ####Note
-The Canvas Framework feature is currently available through a pilot program. For information on enabling it for your organization, contact salesforce.com. Any unreleased services or features referenced in this or other press releases or public statements are not currently available and may not be delivered on time or at all. Customers who purchase our services should make their purchase decisions based upon features that are currently available. More information about our safe habor statement can be found on our [web site](http://www.salesforce.com/company/investor/safe_harbor.jsp) 
+The Force.com Canvas feature is currently available through a pilot program. For information on enabling it for your organization, contact salesforce.com. Any unreleased services or features referenced in this or other press releases or public statements are not currently available and may not be delivered on time or at all. Customers who purchase our services should make their purchase decisions based upon features that are currently available. More information about our safe habor statement can be found on our [web site](http://www.salesforce.com/company/investor/safe_harbor.jsp) 
 
 ###Introduction
 
-Canvas Framework is a mechanism for consuming third party applications within Salesforce. It's goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third party applications with a Java/JavaScript SDK and examples so they can easily integrate canvas style applications into Salesforce, while developing in the technology and platform of their choice. 
+Force.com Canvas is a mechanism for consuming third party applications within Salesforce. It's goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third party applications with a Java/JavaScript SDK and examples so they can easily integrate canvas style applications into Salesforce, while developing in the technology and platform of their choice. 
 
 The best place to get started with building canvas applications is the
 [online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm). [(pre-release here)](http://www.salesforce.com/us/developer/docs/platform_connectpre/index.htm).
