@@ -1,8 +1,23 @@
 Salesforce Force.com Canvas SDK
 ============================
 
+
 ####Note
+
 The Force.com Canvas feature is currently available through a pilot program. For information on enabling it for your organization, contact salesforce.com. Any unreleased services or features referenced in this or other press releases or public statements are not currently available and may not be delivered on time or at all. Customers who purchase our services should make their purchase decisions based upon features that are currently available. More information about our safe habor statement can be found on our [web site](http://www.salesforce.com/company/investor/safe_harbor.jsp) 
+
+### Version
+
+Master now points to version v27.0 (Spring 2013), Note: Spring 2013 requires a mandatory upgrade and some small coding changes, please see the release notes and the Examples). If you still need the older release 
+	
+	// Clone the entire repository
+	git clone git@github.com:forcedotcom/SalesforceCanvasFrameworkSDK.git
+	
+	// List the Tags
+	git tag
+	
+	// Check out the old version
+	git checkout v26.0
 
 ###Introduction
 
