@@ -8,7 +8,7 @@ The Force.com Canvas feature is currently available through a pilot program. For
 
 ### Version
 
-Master now points to version v27.0 (Spring 2013), Note: Spring 2013 requires a mandatory upgrade and some small coding changes, please see the [release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). If you still need the older release 
+Master now points to version v27.0 (Spring 2013), Note: Spring 2013 requires a mandatory upgrade and some small coding changes, please see the [release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). If you still need the older release: 
 	
 	// Clone the entire repository
 	git clone git@github.com:forcedotcom/SalesforceCanvasFrameworkSDK.git
@@ -21,12 +21,12 @@ Master now points to version v27.0 (Spring 2013), Note: Spring 2013 requires a m
 
 ###Introduction
 
-Force.com Canvas is a mechanism for consuming third party applications within Salesforce. It's goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third party applications with a Java/JavaScript SDK and examples so they can easily integrate canvas style applications into Salesforce, while developing in the technology and platform of their choice. 
+Force.com Canvas is a mechanism for consuming third-party applications within Salesforce. Its goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third-party applications with a Java/JavaScript SDK and examples so they can easily integrate canvas-style applications into Salesforce, while developing in the technology and platform of their choice. 
 
-The best place to get started with building canvas applications is the
-[online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm).
+The best place to get started with building canvas applications is the [Spring '13 online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf) or the 
+[Winter '13 online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm) (for the previous version).
 
-While we currently provide examples in Java and Ruby, you can develop in whatever language you prefer. Most of the integration with Salesforce is through JavaScript and REST. You can also run and test your application locally, from your own host, or from [Heroku](http://www.heroku.com/).
+Currently, we provide Java and Ruby examples, but you can develop in whatever language you prefer. Most of the integration with Salesforce is through JavaScript and REST. You can also run and test your application locally, from your own host, or from [Heroku](http://www.heroku.com/).
 
 
 ### Examples
