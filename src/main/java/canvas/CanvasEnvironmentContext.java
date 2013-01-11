@@ -29,14 +29,13 @@ package canvas;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-/**
- * Environmental information about the canvas application.
- */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class CanvasEnvironmentContext {
+
     private String locationUrl;
     private String uiTheme;
     private Dimensions dimensions;
+    private SystemVersion version;
 
     /**
      * Returns the url of the current location.
@@ -54,8 +53,6 @@ public class CanvasEnvironmentContext {
      * Returns the value Theme2 if the user is using the newer user interface theme of the online application, labeled
      * \u201cSalesforce.\u201d Returns Theme1 if the user is using the older user interface theme, labeled
      * \u201cSalesforce Classic.\u201d
-     * 
-     * @see common.html.styles.UiSkin
      */
     @JsonProperty("uiTheme")
     public String getUiTheme() {
@@ -76,14 +73,25 @@ public class CanvasEnvironmentContext {
         this.dimensions = dimensions;
     }
 
+    @JsonProperty("version")
+    public SystemVersion getSystemVersion() {
+        return this.version;
+    }
+
+    @JsonProperty("version")
+    public void setSystemVersion(SystemVersion systemVersion) {
+        this.version = systemVersion;
+    }
+
     @Override
     public String toString()
     {
         return locationUrl + ", " +
                uiTheme + "," +
-               dimensions.toString();
+               dimensions.toString() + "," +
+               version.toString();
     }
-    
+
     @JsonIgnoreProperties(ignoreUnknown=true)
     public static class Dimensions{
         /**
@@ -94,7 +102,7 @@ public class CanvasEnvironmentContext {
          * The height of the iframe.
          */
         private String height;
-        
+
         @JsonProperty("width")
         public String getWidth() {
             return this.width;
@@ -112,12 +120,48 @@ public class CanvasEnvironmentContext {
         public void setHeight(String height) {
             this.height = height;
         }
-        
+
         @Override
         public String toString(){
-            return "(w:" + width + ",h:" + height + ")";
+            return String.format("(w:%s,h:%s)",width,height);
         }
     }
-    
+
+    @JsonIgnoreProperties(ignoreUnknown=true)
+    public static class SystemVersion{
+
+        private String api;
+        private String season;
+
+        // Needs default ctor for Jackson to construct.
+        public SystemVersion(){
+        }
+
+        @JsonProperty("api")
+        public String getApiVersion() {
+            return this.api;
+        }
+
+        @JsonProperty("api")
+        public void setApiVersion(String apiVersion) {
+            this.api = apiVersion;
+        }
+
+        @JsonProperty("season")
+        public String getSeason() {
+            return this.season;
+        }
+
+        @JsonProperty("season")
+        public void setSeason(String season) {
+            this.season = season;
+        }
+
+        @Override
+        public String toString(){
+            return String.format("%s - %s",api,season);
+        }
+
+    }
 
 }

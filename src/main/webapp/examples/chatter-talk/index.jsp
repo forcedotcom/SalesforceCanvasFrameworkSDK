@@ -55,7 +55,6 @@
                 document.querySelector('#speech-input p').style.display = 'block';
             }
             var sr = JSON.parse('<%=signedRequestJson%>');
-            Sfdc.canvas.oauth.token(sr.oauthToken);
             chatterTalk.init(sr, "chatter-submit", "speech-input-field", function(data) {
                 Sfdc.canvas.byId('status').innerHTML = data.statusText;
             });

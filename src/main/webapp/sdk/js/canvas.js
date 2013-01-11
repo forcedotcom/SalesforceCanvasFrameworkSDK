@@ -1,28 +1,3 @@
-/**
- * Copyright (c) 2011, salesforce.com, inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided
- * that the following conditions are met:
- *
- *    Redistributions of source code must retain the above copyright notice, this list of conditions and the
- *    following disclaimer.
- *
- *    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
- *    the following disclaimer in the documentation and/or other materials provided with the distribution.
- *
- *    Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
- *    promote products derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
- * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
 (function (global) {
 
     "use strict";
@@ -36,7 +11,7 @@
 
     var oproto = Object.prototype,
         aproto = Array.prototype,
-        doc = document,
+        doc = global.document,
         /**
         * @class Canvas
         * @exports $ as Sfdc.canvas
@@ -92,6 +67,7 @@
             * @returns {Boolean} <code>true</code> if the object or value is a function, otherwise <code>false</code>
             */
             isFunction: function (value) {
+                //return typeof value === "function";
                 return !!(value && value.constructor && value.call && value.apply);
             },
             
@@ -344,6 +320,31 @@
                 return s.join("&").replace(/%20/g, "+");
             },
 
+            /**
+             * @description Strip out the URL to just the {scheme}://{host}:{port} - remove any path and query string information.
+             * @param {String} url The url to be stripped
+             * @returns {String} just the {scheme}://{host}:{port} portion of the url.
+             */
+            stripUrl : function(url) {
+                return ($.isNil(url)) ? null : url.replace( /([^:]+:\/\/[^\/\?#]+).*/, '$1');
+            },
+
+            /**
+             * @description append the query string to the end of the URL, and strip off any existing Hash tag
+             * @param {String} url The url to be appended to
+             * @returns uel with query string appended..
+             */
+            query : function(url, q) {
+                if ($.isNil(q)) {
+                    return url;
+                }
+                // Strip any old hash tags
+                url = url.replace(/#.*$/, '');
+                url += (/^\#/.test(q)) ? q  : (/\?/.test( url ) ? "&" : "?") + q;
+                return url;
+            },
+
+
             // strings
             //--------
             /**
@@ -446,8 +447,20 @@
                         return a[i].value;
                     }
                 }
+            },
+
+            /**
+             * @description register a callback to be called after the DOM is ready.
+             * onReady.
+             * @param {Function} The callback function to be called.
+             */
+            onReady : function(cb) {
+                if ($.isFunction(cb)) {
+                    readyHandlers.push(cb);
+                }
             }
-        },
+
+       },
 
         readyHandlers = [],
 
@@ -456,6 +469,7 @@
             $.each(readyHandlers, $.invoker);
             readyHandlers = null;
         },
+
         /**
         * @description 
         * @param {Function} cb The function to run when ready.
@@ -469,15 +483,17 @@
     (function () {
         var ael = 'addEventListener',
             tryReady = function () {
-                if (/loaded|complete/.test(doc.readyState)) {
+                if (doc && /loaded|complete/.test(doc.readyState)) {
                     ready();
                 }
                 else if (readyHandlers) {
-                    setTimeout(tryReady, 30);
+                    if ($.isFunction(global.setTimeout)) {
+                        global.setTimeout(tryReady, 30);
+                    }
                 }
             };
 
-        if (doc[ael]) {
+        if (doc && doc[ael]) {
             doc[ael]('DOMContentLoaded', ready, false);
         }
 
@@ -489,6 +505,7 @@
         else if (global.attachEvent) {
             global.attachEvent('onload', ready);
         }
+
     }());
 
     $.each($, function (fn, name) {
@@ -500,6 +517,9 @@
     }
 
     global.Sfdc.canvas = canvas;
+    if (!global.Sfdc.JSON) {
+        global.Sfdc.JSON = JSON;
+    }
 
 
 }(this));

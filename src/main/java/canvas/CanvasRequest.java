@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  *
@@ -45,20 +46,19 @@ public class CanvasRequest {
     private String  algorithm;
     private Integer issuedAt;
     private String  userId;
-    private String  OAuthToken;
-    private Map<String,Object> params;
-    private String  clientId;
-    private String  instanceUrl;
     private CanvasContext canvasContext;
+    private CanvasClient client;
 
     /**
      * The algorithm used to sign the request. typically HMAC-SHA256
      * @see platform.connect.service.SignRequestService.ALGORITHM
      */
+    @JsonProperty("algorithm")
     public String getAlgorithm() {
         return algorithm;
     }
 
+    @JsonProperty("algorithm")
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
     }
@@ -66,10 +66,12 @@ public class CanvasRequest {
     /**
      * The unix time this request was issued at.
      */
+    @JsonProperty("issuedAt")
     public Integer getIssuedAt() {
         return issuedAt;
     }
 
+    @JsonProperty("issuedAt")
     public void setIssuedAt(Integer issuedAt) {
         this.issuedAt = issuedAt;
     }
@@ -78,72 +80,44 @@ public class CanvasRequest {
      * The Salesforce unique id for this user.
      * @return
      */
+    @JsonProperty("userId")
     public String getUserId() {
         return userId;
     }
 
+    @JsonProperty("userId")
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
     /**
-     * The scoped OAuth token to be used to subsequent REST calls
-     */
-    public String getOAuthToken() {
-        return OAuthToken;
-    }
-
-    public void setOAuthToken(String OAuthToken) {
-        this.OAuthToken = OAuthToken;
-    }
-
-    /**
-     * URL Parameters, put here to prevent tampering
-     */
-    public Map<String,Object> getParameters() {
-        if (null == this.params){
-            this.params = new HashMap<String, Object>();
-        }
-        return params;
-    }
-
-    public void setParameters(Map<String,Object> params) {
-        this.params = params;
-    }
-
-    /**
-     * The Connect app client key.
-     * @REVIEW: should we be sending this. they should already have this?
-     * @return
-     */
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
-
-    /**
      * Context information about the user, org and environment.
      */
+    @JsonProperty("context")
     public CanvasContext getContext() {
         return canvasContext;
     }
 
+    /**
+     * Client instance information required while using the Sfdc.canvas.client JavaScript API.
+     */
+    @JsonProperty("context")
     public void setContext(CanvasContext canvasContext) {
         this.canvasContext = canvasContext;
     }
 
     /**
-     * The base url for all subsequent REST call, this has the correct
-     * Salesforce instance this organization is pinned to.
+     * Unique information about this client (including oauth token). This information (in JSON) format needs to be
+     * included on all client side SDK calls. 
      */
-    public String getInstanceUrl() {
-        return instanceUrl;
+    @JsonProperty("client")
+    public CanvasClient getClient() {
+        return client;
     }
 
-    public void setInstanceUrl(String instanceUrl) {
-        this.instanceUrl = instanceUrl;
+    @JsonProperty("client")
+    public void setClient(CanvasClient client) {
+        this.client = client;
     }
 }
+

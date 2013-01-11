@@ -124,8 +124,7 @@ public class SignedRequest {
     private static void verify(String secret, String algorithm, String encodedEnvelope, String encodedSig )
         throws SecurityException
     {
-
-        if (secret == null) {
+    	if (secret == null || secret.trim().length() == 0) {
             throw new IllegalArgumentException("secret is null, did you set your environment variable CANVAS_CONSUMER_SECRET?");
         }
 

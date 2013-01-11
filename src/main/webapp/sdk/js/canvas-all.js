@@ -36,7 +36,7 @@
 
     var oproto = Object.prototype,
         aproto = Array.prototype,
-        doc = document,
+        doc = global.document,
         /**
         * @class Canvas
         * @exports $ as Sfdc.canvas
@@ -92,6 +92,7 @@
             * @returns {Boolean} <code>true</code> if the object or value is a function, otherwise <code>false</code>
             */
             isFunction: function (value) {
+                //return typeof value === "function";
                 return !!(value && value.constructor && value.call && value.apply);
             },
             
@@ -344,6 +345,31 @@
                 return s.join("&").replace(/%20/g, "+");
             },
 
+            /**
+             * @description Strip out the URL to just the {scheme}://{host}:{port} - remove any path and query string information.
+             * @param {String} url The url to be stripped
+             * @returns {String} just the {scheme}://{host}:{port} portion of the url.
+             */
+            stripUrl : function(url) {
+                return ($.isNil(url)) ? null : url.replace( /([^:]+:\/\/[^\/\?#]+).*/, '$1');
+            },
+
+            /**
+             * @description append the query string to the end of the URL, and strip off any existing Hash tag
+             * @param {String} url The url to be appended to
+             * @returns uel with query string appended..
+             */
+            query : function(url, q) {
+                if ($.isNil(q)) {
+                    return url;
+                }
+                // Strip any old hash tags
+                url = url.replace(/#.*$/, '');
+                url += (/^\#/.test(q)) ? q  : (/\?/.test( url ) ? "&" : "?") + q;
+                return url;
+            },
+
+
             // strings
             //--------
             /**
@@ -446,8 +472,20 @@
                         return a[i].value;
                     }
                 }
+            },
+
+            /**
+             * @description register a callback to be called after the DOM is ready.
+             * onReady.
+             * @param {Function} The callback function to be called.
+             */
+            onReady : function(cb) {
+                if ($.isFunction(cb)) {
+                    readyHandlers.push(cb);
+                }
             }
-        },
+
+       },
 
         readyHandlers = [],
 
@@ -456,6 +494,7 @@
             $.each(readyHandlers, $.invoker);
             readyHandlers = null;
         },
+
         /**
         * @description 
         * @param {Function} cb The function to run when ready.
@@ -469,15 +508,17 @@
     (function () {
         var ael = 'addEventListener',
             tryReady = function () {
-                if (/loaded|complete/.test(doc.readyState)) {
+                if (doc && /loaded|complete/.test(doc.readyState)) {
                     ready();
                 }
                 else if (readyHandlers) {
-                    setTimeout(tryReady, 30);
+                    if ($.isFunction(global.setTimeout)) {
+                        global.setTimeout(tryReady, 30);
+                    }
                 }
             };
 
-        if (doc[ael]) {
+        if (doc && doc[ael]) {
             doc[ael]('DOMContentLoaded', ready, false);
         }
 
@@ -489,6 +530,7 @@
         else if (global.attachEvent) {
             global.attachEvent('onload', ready);
         }
+
     }());
 
     $.each($, function (fn, name) {
@@ -500,6 +542,9 @@
     }
 
     global.Sfdc.canvas = canvas;
+    if (!global.Sfdc.JSON) {
+        global.Sfdc.JSON = JSON;
+    }
 
 
 }(this));/**
@@ -587,9 +632,9 @@
 
 }(Sfdc.canvas));
 /**
-*@namespace Sfdc.canvas.oauth
-*@name Sfdc.canvas.oauth
-*/
+ *@namespace Sfdc.canvas.oauth
+ *@name Sfdc.canvas.oauth
+ */
 (function ($$) {
 
     "use strict";
@@ -597,7 +642,9 @@
     var module =   (function() {
 
         var accessToken,
-            instanceUrl,
+            instUrl,
+            instId,
+            tOrigin,
             childWindow;
 
         function init() {
@@ -621,40 +668,40 @@
             return '';
         }
         /**
-        *@private
-        */
+         *@private
+         */
         function refresh() {
             // Temporarily set the oauth token in a cookie and then remove it
             // after the refresh.
             $$.cookies.set("access_token", accessToken);
             self.location.reload();
         }
-        /** 
-        * @name Sfdc.canvas.oauth#login
-        * @function
-        * @description Opens the OAuth popup window to retrieve an OAuth token
-        * @param {Object} ctx  Context object that contains the url, the response type, the client id and callback url
-        * @docneedsimprovement
-        * @example
-        * function clickHandler(e)
-        * {
-        *  var uri;
-        *  if (! connect.oauth.loggedin())
-        *  {
-        *   uri = connect.oauth.loginUrl();
-        *   connect.oauth.login(
-        *    {uri : uri,
-        *     params: {
-        *      response_type : "token",
-        *      client_id :  "<%=consumerKey%>",
-        *      redirect_uri : encodeURIComponent("/sdk/callback.html")
-        *      }});
-        *  } else {
-        *     connect.oauth.logout();
-        *  }
-        *  return false;
-        * }
-        */
+        /**
+         * @name Sfdc.canvas.oauth#login
+         * @function
+         * @description Opens the OAuth popup window to retrieve an OAuth token
+         * @param {Object} ctx  Context object that contains the url, the response type, the client id and callback url
+         * @docneedsimprovement
+         * @example
+         * function clickHandler(e)
+         * {
+         *  var uri;
+         *  if (! connect.oauth.loggedin())
+         *  {
+         *   uri = connect.oauth.loginUrl();
+         *   connect.oauth.login(
+         *    {uri : uri,
+         *     params: {
+         *      response_type : "token",
+         *      client_id :  "<%=consumerKey%>",
+         *      redirect_uri : encodeURIComponent("/sdk/callback.html")
+         *      }});
+         *  } else {
+         *     connect.oauth.logout();
+         *  }
+         *  return false;
+         * }
+         */
         function login(ctx) {
             var uri;
 
@@ -668,18 +715,18 @@
         }
 
         /**
-        * @name Sfdc.canvas.oauth#token
-        * @function
-        * @description Sets, gets or removes the <code>access_token</code> from this JS object <br>
-            <p>This function does one of three things <br>
-            If the 't' parameter is not passed in, the current value for the <code>access_token</code> value is returned. <br>
-            If the the 't' parameter is null, the <code>access_token</code> value is removed. <br>
-            Note: for longer term storage of the OAuth token store it server side in the session, access tokens
-            should never be stored in cookies.
-            Otherwise the <code>access_token</code>  value is set to the 't' parameter and then returned.
-        * @param {String} [t] The oauth token to set as the <code>access_token</code> value
-        * @returns {String} The resulting <code>access_token</code> value if set, otherwise null
-        */
+         * @name Sfdc.canvas.oauth#token
+         * @function
+         * @description Sets, gets or removes the <code>access_token</code> from this JS object <br>
+         <p>This function does one of three things <br>
+         If the 't' parameter is not passed in, the current value for the <code>access_token</code> value is returned. <br>
+         If the the 't' parameter is null, the <code>access_token</code> value is removed. <br>
+         Note: for longer term storage of the OAuth token store it server side in the session, access tokens
+         should never be stored in cookies.
+         Otherwise the <code>access_token</code>  value is set to the 't' parameter and then returned.
+         * @param {String} [t] The oauth token to set as the <code>access_token</code> value
+         * @returns {String} The resulting <code>access_token</code> value if set, otherwise null
+         */
         function token(t) {
             if (arguments.length === 0) {
                 if (!$$.isNil(accessToken)) {return accessToken;}
@@ -692,42 +739,42 @@
         }
 
         /**
-        * @name Sfdc.canvas.oauth#instance
-        * @function
-        * @description Sets, gets or removes the <code>instance_url</code> cookie <br>
-            <p> This function does one of three things <br>
-            If the 'i' parameter is not passed in, the current value for the <code>instance_url</code> cookie is returned. <br>
-            If the 'i' parameter is null, the <code>instance_url</code> cookie is removed. <br>
-            Otherwise the <code>instance_url</code> cookie value is set to the 'i' parameter and then returned.
-        * @param {String} [i] The value to set as the <code>instance_url</code> cookie
-        * @returns {String} The resulting <code>instance_url</code> cookie value if set, otherwise null
-        */
-        function instance(i) {
+         * @name Sfdc.canvas.oauth#instance
+         * @function
+         * @description Sets, gets or removes the <code>instance_url</code> cookie <br>
+         <p> This function does one of three things <br>
+         If the 'i' parameter is not passed in, the current value for the <code>instance_url</code> cookie is returned. <br>
+         If the 'i' parameter is null, the <code>instance_url</code> cookie is removed. <br>
+         Otherwise the <code>instance_url</code> cookie value is set to the 'i' parameter and then returned.
+         * @param {String} [i] The value to set as the <code>instance_url</code> cookie
+         * @returns {String} The resulting <code>instance_url</code> cookie value if set, otherwise null
+         */
+        function instanceUrl(i) {
             if (arguments.length === 0) {
-                if (!$$.isNil(instanceUrl)) {return instanceUrl;}
-                instanceUrl = $$.cookies.get("instance_url");
+                if (!$$.isNil(instUrl)) {return instUrl;}
+                instUrl = $$.cookies.get("instance_url");
             }
             else if (i === null) {
                 $$.cookies.remove("instance_url");
-                instanceUrl = null;
+                instUrl = null;
             }
             else {
                 $$.cookies.set("instance_url", i);
-                instanceUrl = i;
+                instUrl = i;
             }
-            return instanceUrl;
+            return instUrl;
         }
 
         /**
-        *@private
-        */
-        // Example Results of tha hash....
-        // Name [access_token] Value [00DU0000000Xthw!ARUAQMdYg9ScuUXB5zPLpVyfYQr9qXFO7RPbKf5HyU6kAmbeKlO3jJ93gETlJxvpUDsz3mqMRL51N1E.eYFykHpoda8dPg_z]
-        // Name [instance_url] Value [https://na12.salesforce.com]
-        // Name [id] Value [https://login.salesforce.com/id/00DU0000000XthwMAC/005U0000000e6PoIAI]
-        // Name [issued_at] Value [1331000888967]
-        // Name [signature] Value [LOSzVZIF9dpKvPU07icIDOf8glCFeyd4vNGdj1dhW50]
-        // Name [state] Value [/crazyrefresh.html]
+         *@private
+         */
+            // Example Results of tha hash....
+            // Name [access_token] Value [00DU0000000Xthw!ARUAQMdYg9ScuUXB5zPLpVyfYQr9qXFO7RPbKf5HyU6kAmbeKlO3jJ93gETlJxvpUDsz3mqMRL51N1E.eYFykHpoda8dPg_z]
+            // Name [instance_url] Value [https://na12.salesforce.com]
+            // Name [id] Value [https://login.salesforce.com/id/00DU0000000XthwMAC/005U0000000e6PoIAI]
+            // Name [issued_at] Value [1331000888967]
+            // Name [signature] Value [LOSzVZIF9dpKvPU07icIDOf8glCFeyd4vNGdj1dhW50]
+            // Name [state] Value [/crazyrefresh.html]
         function parseHash(hash) {
             var i, nv, nvp, n, v;
 
@@ -745,17 +792,23 @@
                         token(v);
                     }
                     else if ("instance_url" === n) {
-                         instance(v);
+                        instanceUrl(v);
+                    }
+                    else if ("target_origin" === n) {
+                        tOrigin = decodeURIComponent(v);
+                    }
+                    else if ("instance_id" === n) {
+                        instId = v;
                     }
                 }
             }
         }
-        
+
         /**
-        * @name Sfdc.canvas.oauth#checkChildWindowStatus
-        * @function
-        * @description Refreshes the parent window only if the child window is closed.
-        */
+         * @name Sfdc.canvas.oauth#checkChildWindowStatus
+         * @function
+         * @description Refreshes the parent window only if the child window is closed.
+         */
         function checkChildWindowStatus() {
             if (!childWindow || childWindow.closed) {
                 refresh();
@@ -763,16 +816,16 @@
         }
 
         /**
-        * @name Sfdc.canvas.oauth#childWindowUnloadNotification
-        * @function
-        * @description Parses the hash value that is passed in and sets the 
-            <code>access_token</code> and <code>instance_url</code> cookies if they exist.  Use during 
-            User-Agent OAuth Authentication Flow to pass the OAuth token
-        * @param {String} hash Typically a string of key-value pairs delimited by 
-            the ampersand character.  
-        * @example 
-        * Sfdc.canvas.oauth.childWindowUnloadNotification(self.location.hash);
-        */
+         * @name Sfdc.canvas.oauth#childWindowUnloadNotification
+         * @function
+         * @description Parses the hash value that is passed in and sets the
+         <code>access_token</code> and <code>instance_url</code> cookies if they exist.  Use during
+         User-Agent OAuth Authentication Flow to pass the OAuth token
+         * @param {String} hash Typically a string of key-value pairs delimited by
+         the ampersand character.
+         * @example
+         * Sfdc.canvas.oauth.childWindowUnloadNotification(self.location.hash);
+         */
         function childWindowUnloadNotification(hash) {
             // Here we get notification from child window. Here we can decide if such notification is
             // raised because user closed child window, or because user is playing with F5 key.
@@ -782,38 +835,39 @@
             parseHash(hash);
             setTimeout(window.Sfdc.canvas.oauth.checkChildWindowStatus, 50);
         }
-        
+
         /**
-        * @name Sfdc.canvas.oauth#logout
-        * @function
-        * @description Removes the <code>access_token</code> oauth token from this object.
-        */
+         * @name Sfdc.canvas.oauth#logout
+         * @function
+         * @description Removes the <code>access_token</code> oauth token from this object.
+         */
         function logout() {
             // Remove the oauth token and refresh the browser
             token(null);
-            var home = $$.cookies.get("home");
-            window.location = home || window.location;
+            // @todo: do we want to do this?
+            //var home = $$.cookies.get("home");
+            //window.location = home || window.location;
         }
-        
+
         /**
-        * @name Sfdc.canvas.oauth#loggedin
-        * @function
-        * @description Returns the login state
-        * @returns {Boolean} <code>true</code> if the <code>access_token</code> is available in this JS object.
-        * Note: <code>access tokens</code> (i.e. OAuth tokens) should be stored server side for more durability.
+         * @name Sfdc.canvas.oauth#loggedin
+         * @function
+         * @description Returns the login state
+         * @returns {Boolean} <code>true</code> if the <code>access_token</code> is available in this JS object.
+         * Note: <code>access tokens</code> (i.e. OAuth tokens) should be stored server side for more durability.
          * Never store OAuth tokens in cookies as this can lead to a security risk.
-        */
+         */
         function loggedin() {
             return !$$.isNil(token());
         }
-        
+
         /**
-        * @name Sfdc.canvas.oauth#loginUrl
-        * @function
-        * @description Calculates and returns the url for the OAuth authorization service
-        * @returns {String} The url for the OAuth authorization service or null if there is 
-        *   not a value for loginUrl in the current url's query string.
-        */
+         * @name Sfdc.canvas.oauth#loginUrl
+         * @function
+         * @description Returns the url for the OAuth authorization service
+         * @returns {String} The url for the OAuth authorization service or default if there is
+         *   not a value for loginUrl in the current url's query string.
+         */
         function loginUrl() {
             var i, nvs, nv, q = self.location.search;
 
@@ -828,21 +882,55 @@
                     }
                 }
             }
-            // Maybe throw exception here, otherwise default to something better
-            return null;
+            return "https://login.salesforce.com/services/oauth2/authorize";
+        }
+
+        function targetOrigin(to) {
+
+            if (!$$.isNil(to)) {
+                tOrigin = to;
+                return to;
+            }
+
+            if (!$$.isNil(tOrigin)) {return tOrigin;}
+
+            // This relies on the parent passing it in. This may not be there as the client can do a
+            // redirect or link to another page
+            parseHash(document.location.hash);
+            return tOrigin;
+        }
+
+        function instanceId(id) {
+
+            if (!$$.isNil(id)) {
+                instId = id;
+                return id;
+            }
+
+            if (!$$.isNil(instId)) {return instId;}
+
+            // This relies on the parent passing it in. This may not be there as the client can do a
+            // redirect or link to another page
+            parseHash(document.location.hash);
+            return instId;
+        }
+
+        function client() {
+            return {oauthToken : token(), instanceId : instanceId(), targetOrigin : targetOrigin()};
         }
 
         return {
-             init : init,
-             login : login,
-             logout : logout,
-             loggedin : loggedin,
-             loginUrl : loginUrl,
-             token : token,
-             instance : instance,
-             checkChildWindowStatus : checkChildWindowStatus,
-             childWindowUnloadNotification: childWindowUnloadNotification
-         };
+            init : init,
+            login : login,
+            logout : logout,
+            loggedin : loggedin,
+            loginUrl : loginUrl,
+            token : token,
+            instance : instanceUrl,
+            client : client,
+            checkChildWindowStatus : checkChildWindowStatus,
+            childWindowUnloadNotification: childWindowUnloadNotification
+        };
     }());
 
     $$.module('Sfdc.canvas.oauth', module);
@@ -860,10 +948,11 @@
     var module =   (function() {
 
         var internalCallback;
+
         /**
         * @lends Sfdc.canvas.xd
         */
-        
+
         /**
         * @name Sfdc.canvas.xd#post
         * @function
@@ -874,12 +963,19 @@
         */
         function postMessage(message, target_url, target) {
 
-            // strip  out just the {scheme}://{host}:{port} - remove any path and query string information
-            var otherWindow = (target_url) ? target_url.replace( /([^:]+:\/\/[^\/]+).*/, '$1') : "*";
+            // If target url was not supplied (client may have lost it), we could default to '*',
+            // However there are security implications here as other canvas apps could receive this
+            // canvas apps oauth token.
+            if ($$.isNil(target_url)) {
+                throw "ERROR: target_url was not supplied on postMessage";
+            }
+            var otherWindow = $$.stripUrl(target_url);
+
             target = target || parent;  // default to parent
             if (window.postMessage) {
                 // the browser supports window.postMessage, so call it with a targetOrigin
                 // set appropriately, based on the target_url parameter.
+                message = Sfdc.JSON.stringify(message);
                 target.postMessage(message, otherWindow);
             }
         }
@@ -898,11 +994,20 @@
                 // bind the callback to the actual event associated with window.postMessage
                 if (callback) {
                     internalCallback = function(e) {
-                        if ((typeof source_origin === 'string' && e.origin !== source_origin)
-                            || ($$.isFunction(source_origin) && source_origin(e.origin) === false)) {
-                                return false;
+
+                        var data, r;
+                        if (typeof source_origin === 'string' && e.origin !== source_origin) {
+                            return false;
                         }
-                        callback(e);
+                        if ($$.isFunction(source_origin)) {
+                            r = source_origin(e.origin, e.data);
+                            if (r === false) {
+                                return false;
+                            }
+                        }
+                        data = Sfdc.JSON.parse(e.data);
+                        callback(data, r);
+
                     };
                 }
                 if (window.addEventListener) {
@@ -948,38 +1053,54 @@
 
     "use strict";
 
-    
+    var pversion, cversion = "27.0";
+
     var module =   (function() /**@lends module */ {
         
-        var purl, cbs = {}, seq = 0;
+        var purl, cbs = [], seq = 0;
+
+        function startsWithHttp(u, d) {
+            return  $$.isNil(u) ? u : (u.substring(0, 4) === "http") ? u : d;
+        }
         /**
         * @description
         * @function
         * @returns The url of the Parent Window
         */
-        function getParentUrl() {
-            // This relies on the parent passing it in. If it doesn't we can still recover.
-            if (purl) {return purl;}
-            var h = document.location.hash;
+        function getTargetOrigin(to) {
+
+            var h;
+
+            if (to === "*") {return to;}
+
+            if (!$$.isNil(to)) {
+                h = $$.stripUrl(to);
+                purl = startsWithHttp(h, purl);
+                if (purl) {return purl;}
+            }
+
+            // This relies on the parent passing it in. This may not be there as the client can do a redirect.
+            h = document.location.hash;
             if (h) {
                 h = decodeURIComponent(h.replace(/^#/, ''));
-                purl = (h.substring(0, 4) === "http") ? h : null;
+                purl = startsWithHttp(h, purl);
             }
             return purl;
         }
 
-        function callbacker(message) {
-            if (message && message.data) {
+        function callbacker(data) {
+
+            if (data) {
                 // If the server is telling us the access_token is invalid, wipe it clean.
-                if (message.data.status === 401 &&
-                    $$.isArray(message.data.payload) &&
-                    message.data.payload[0].errorCode &&
-                    message.data.payload[0].errorCode === "INVALID_SESSION_ID") {
+                if (data.status === 401 &&
+                    $$.isArray(data.payload) &&
+                    data.payload[0].errorCode &&
+                    data.payload[0].errorCode === "INVALID_SESSION_ID") {
                     // Session has expired logout.
                     $$.oauth.logout();
                 }
-                if ($$.isFunction(cbs[message.data.seq])) {
-                    cbs[message.data.seq](message.data);
+                if ($$.isFunction(cbs[data.seq])) {
+                    cbs[data.seq](data);
                 }
                 else {
                     // This can happen when the user switches out canvas apps real quick,
@@ -991,14 +1112,48 @@
         }
 
         function postit(clientscb, message) {
+
+            var wrapped, to, c;
+
             // need to keep a mapping from request to callback, otherwise
             // wrong callbacks get called. Unfortunately, this is the only
             // way to handle this as postMessage acts more like topic/queue.
             // limit the sequencers to 100 avoid out of memory errors
+
             seq = (seq > 100) ? 0 : seq + 1;
             cbs[seq] = clientscb;
-            var wrapped = {seq : seq, body : message};
-            $$.xd.post(wrapped, getParentUrl(), parent);
+            wrapped = {seq : seq, src : "client", clientVersion : cversion, parentVersion: pversion, body : message};
+
+            c  = message && message.config && message.config.client;
+            to = getTargetOrigin($$.isNil(c) ? null : c.targetOrigin);
+            if ($$.isNil(to)) {
+                throw "ERROR: targetOrigin was not supplied and was not found on the hash tag, this can result from a redirect or link to another page. " +
+                    "Try setting the targetOrgin (example: targetOrigin : sr.context.environment.targetOrigin) " +
+                    "when making an ajax request.";
+            }
+            $$.xd.post(wrapped, to, parent);
+        }
+
+        function validateClient(client, cb) {
+
+            var msg;
+
+            if ($$.isNil(client) || $$.isNil(client.oauthToken)) {
+                msg = {status : 401, statusText : "Unauthorized" , parentVersion : pversion, payload : "client or client.oauthToken not supplied"};
+            }
+            if ($$.isNil(client.instanceId) || $$.isNil(client.targetOrigin)) {
+                msg = {status : 400, statusText : "Bad Request" , parentVersion : pversion, payload : "client.instanceId or client.targetOrigin not supplied"};
+            }
+            if (!$$.isNil(msg)) {
+                if ($$.isFunction(cb)) {
+                    cb(msg);
+                    return false;
+                }
+                else {
+                    throw msg;
+                }
+            }
+            return true;
         }
 
         /**
@@ -1024,9 +1179,12 @@
         *   connect.client.ctx(callback, oauthtoken)};
         * }
         */
-        function getContext(clientscb, token) {
-            token = token || $$.oauth.token();
-            postit(clientscb, {type : "ctx", accessToken : token});
+        function ctx(clientscb, client) {
+            client = client || $$.oauth.client();
+            if (validateClient(client, clientscb)) {
+                var token = client.oauthToken;
+                postit(clientscb, {type : "ctx", accessToken : token, config : {client : client}});
+            }
         }
         
         /**
@@ -1035,7 +1193,14 @@
         * @param {String} url The URL to which the request is sent
         * @param {Object} settings A set of key/value pairs to configure the request.  
             <br>The success setting is required at minimum and should be a callback function
-        * @name Sfdc.canvas.client#ajax
+         * @config {String} [client] required client context {oauthToken: "", targetOrigin : "", instanceId : ""}
+         * @config {String} [contentType] "application/json"
+         * @config {String} [data] request body
+         * @config {String} [headers] request headers
+         * @config {String} [method="GET"] The type of Ajax Request to make
+         * @config {Function} [success] Callback for all responses from server (failure and success) . Signature: success(response); intersting fields: [response.data, response.responseHeaders, response.status, response.statusText}
+         * @config {Boolean} [async=true] Asyncronous: true is only supported at this time.
+         * @name Sfdc.canvas.client#ajax
         * @function
         * @throws illegalArgumentException if the URL is missing or the settings object does not contain a success callback function.
         * @example
@@ -1045,7 +1210,7 @@
         *                                   +sr.context.user.userId+"/feed-items";
         * var body = {body : {messageSegments : [{type: "Text", text: "Some Chatter Post"}]}};
         * connect.client.ajax(url,
-        *   {token : sr.oauthToken,
+        *   {client : sr.client,
         *     method: 'POST',
         *     contentType: "application/json",
         *     data: JSON.stringify(body),
@@ -1064,7 +1229,7 @@
         *
         * // Make an XHR call back to salesforce through the supplied browser proxy.
         * connect.client.ajax(chatterUsersUrl,
-        *   {token : sr.oauthToken,
+        *   {client : sr.client,
         *   success : function(data){
         *   // Make sure the status code is OK.
         *   if (data.status === 200) {
@@ -1076,42 +1241,66 @@
         */
          function ajax(url, settings) {
 
-            var token = settings.token || $$.oauth.token();
-            var config,
-                defaults = {
-                    method: 'GET',
-                    async: true,
-                    contentType: "application/json",
-                    headers: {"Authorization" : "OAuth "  + token,
-                        "Accept" : "application/json"},
-                    data: null
-                };
+            var ccb, config, defaults;
 
             if (!url) {
-                throw {name : "illegalArgumentException" , message : "url required"};
+                throw "PRECONDITION ERROR: url required with AJAX call";
             }
             if (!settings || !$$.isFunction(settings.success)) {
-                throw {name : "illegalArgumentException" , message : "setting.success missing."};
+                throw "PRECONDITION ERROR: function: 'settings.success' missing.";
+            }
+            if (! validateClient(settings.client, settings.success)) {
+                return;
             }
 
-            var ccb = settings.success;
+
+            ccb = settings.success;
+            defaults = {
+                method: 'GET',
+                async: true,
+                contentType: "application/json",
+                headers: {"Authorization" : "OAuth "  + settings.client.oauthToken,
+                    "Accept" : "application/json"},
+                data: null
+            };
             config = $$.extend(defaults, settings || {});
+
             // Remove any listeners as functions cannot get marshaled.
             config.success = undefined;
             config.failure = undefined;
+            // Don't allow the client to set "*" as the target origin.
+            if (config.client.targetOrigin === "*") {
+                config.client.targetOrigin = null;
+            }
+            else {
+                // We need to set this here so we can validate the origin when we receive the call back
+                purl = startsWithHttp(config.targetOrigin, purl);
+            }
             postit(ccb, {type : "ajax", accessToken : token, url : url, config : config});
         }
 
+        /**
+         * @description Stores or gets the oauth token in a local javascript variable. Note, if longer term
+         * (survive page refresh) storage is needed store the oauth token on the server side.
+         * @param {String} t oauth token, if supplied it will be stored in a volatile local JS variable.
+         * @returns {Object} the oauth token.
+         */
+
         function token(t) {
-            $$.oauth.token(t);
+            return $$.oauth.token(t);
         }
 
-        $$.xd.receive(callbacker, getParentUrl());
+        function version() {
+            return {clientVersion: cversion};
+        }
+
+        $$.xd.receive(callbacker, getTargetOrigin);
 
         return {
-            ctx : getContext,
+            ctx : ctx,
             ajax : ajax,
-            token : token
+            token : token,
+            version : version
         };
     }());
 

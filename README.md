@@ -9,20 +9,20 @@ The Force.com Canvas feature is currently available through a pilot program. For
 Force.com Canvas is a mechanism for consuming third party applications within Salesforce. It's goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third party applications with a Java/JavaScript SDK and examples so they can easily integrate canvas style applications into Salesforce, while developing in the technology and platform of their choice. 
 
 The best place to get started with building canvas applications is the
-[online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm). [(pre-release here)](http://www.salesforce.com/us/developer/docs/platform_connectpre/index.htm).
+[online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm).
 
 While we currently provide examples in Java and Ruby, you can develop in whatever language you prefer. Most of the integration with Salesforce is through JavaScript and REST. You can also run and test your application locally, from your own host, or from [Heroku](http://www.heroku.com/).
 
 
 ### Examples
 
-While this SDK contains some very basic java examples, it doesn't contain all the examples. We recommend you explore the [Heroku Quick Start](http://www.salesforce.com/us/developer/docs/platform_connectpre/index_Left.htm#CSHID=quick_start_simple_create_app.htm|StartTopic=Content%2Fquick_start_simple_create_app.htm|SkinName=webhelp), for additional examples in Java and other languages.
+While this SDK contains some very basic java examples, it doesn't contain all the examples. We recommend you explore the [Heroku Quick Start](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_simple_create_app.htm|StartTopic=Content%2Fquick_start_simple_create_app.htm|SkinName=webhelp), for additional examples in Java and other languages.
 
 For other Force.com examples and resource, check out [Force.com](http://Developer.force.com/)
 
 ### Pre Requisites
 
-Below are some useful commands and links for your convinience, but before you use them you will need to make sure you have the following software installed on your computer. You can check that [here](http://www.salesforce.com/us/developer/docs/platform_connectpre/index_Left.htm#CSHID=quick_start_prereqs.htm|StartTopic=Content%2Fquick_start_prereqs.htm|SkinName=webhelp).
+Below are some useful commands and links for your convinience, but before you use them you will need to make sure you have the following software installed on your computer. You can check that [here](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_prereqs.htm|StartTopic=Content%2Fquick_start_prereqs.htm|SkinName=webhelp).
 
 ### How to Clone the SDK Repository
 

@@ -1,33 +1,8 @@
-/**
- * Copyright (c) 2011, salesforce.com, inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided
- * that the following conditions are met:
- *
- *    Redistributions of source code must retain the above copyright notice, this list of conditions and the
- *    following disclaimer.
- *
- *    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
- *    the following disclaimer in the documentation and/or other materials provided with the distribution.
- *
- *    Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
- *    promote products derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
- * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
 
 /**
-*@namespace Sfdc.canvas.oauth
-*@name Sfdc.canvas.oauth
-*/
+ *@namespace Sfdc.canvas.oauth
+ *@name Sfdc.canvas.oauth
+ */
 (function ($$) {
 
     "use strict";
@@ -35,7 +10,9 @@
     var module =   (function() {
 
         var accessToken,
-            instanceUrl,
+            instUrl,
+            instId,
+            tOrigin,
             childWindow;
 
         function init() {
@@ -59,40 +36,40 @@
             return '';
         }
         /**
-        *@private
-        */
+         *@private
+         */
         function refresh() {
             // Temporarily set the oauth token in a cookie and then remove it
             // after the refresh.
             $$.cookies.set("access_token", accessToken);
             self.location.reload();
         }
-        /** 
-        * @name Sfdc.canvas.oauth#login
-        * @function
-        * @description Opens the OAuth popup window to retrieve an OAuth token
-        * @param {Object} ctx  Context object that contains the url, the response type, the client id and callback url
-        * @docneedsimprovement
-        * @example
-        * function clickHandler(e)
-        * {
-        *  var uri;
-        *  if (! connect.oauth.loggedin())
-        *  {
-        *   uri = connect.oauth.loginUrl();
-        *   connect.oauth.login(
-        *    {uri : uri,
-        *     params: {
-        *      response_type : "token",
-        *      client_id :  "<%=consumerKey%>",
-        *      redirect_uri : encodeURIComponent("/sdk/callback.html")
-        *      }});
-        *  } else {
-        *     connect.oauth.logout();
-        *  }
-        *  return false;
-        * }
-        */
+        /**
+         * @name Sfdc.canvas.oauth#login
+         * @function
+         * @description Opens the OAuth popup window to retrieve an OAuth token
+         * @param {Object} ctx  Context object that contains the url, the response type, the client id and callback url
+         * @docneedsimprovement
+         * @example
+         * function clickHandler(e)
+         * {
+         *  var uri;
+         *  if (! connect.oauth.loggedin())
+         *  {
+         *   uri = connect.oauth.loginUrl();
+         *   connect.oauth.login(
+         *    {uri : uri,
+         *     params: {
+         *      response_type : "token",
+         *      client_id :  "<%=consumerKey%>",
+         *      redirect_uri : encodeURIComponent("/sdk/callback.html")
+         *      }});
+         *  } else {
+         *     connect.oauth.logout();
+         *  }
+         *  return false;
+         * }
+         */
         function login(ctx) {
             var uri;
 
@@ -106,18 +83,18 @@
         }
 
         /**
-        * @name Sfdc.canvas.oauth#token
-        * @function
-        * @description Sets, gets or removes the <code>access_token</code> from this JS object <br>
-            <p>This function does one of three things <br>
-            If the 't' parameter is not passed in, the current value for the <code>access_token</code> value is returned. <br>
-            If the the 't' parameter is null, the <code>access_token</code> value is removed. <br>
-            Note: for longer term storage of the OAuth token store it server side in the session, access tokens
-            should never be stored in cookies.
-            Otherwise the <code>access_token</code>  value is set to the 't' parameter and then returned.
-        * @param {String} [t] The oauth token to set as the <code>access_token</code> value
-        * @returns {String} The resulting <code>access_token</code> value if set, otherwise null
-        */
+         * @name Sfdc.canvas.oauth#token
+         * @function
+         * @description Sets, gets or removes the <code>access_token</code> from this JS object <br>
+         <p>This function does one of three things <br>
+         If the 't' parameter is not passed in, the current value for the <code>access_token</code> value is returned. <br>
+         If the the 't' parameter is null, the <code>access_token</code> value is removed. <br>
+         Note: for longer term storage of the OAuth token store it server side in the session, access tokens
+         should never be stored in cookies.
+         Otherwise the <code>access_token</code>  value is set to the 't' parameter and then returned.
+         * @param {String} [t] The oauth token to set as the <code>access_token</code> value
+         * @returns {String} The resulting <code>access_token</code> value if set, otherwise null
+         */
         function token(t) {
             if (arguments.length === 0) {
                 if (!$$.isNil(accessToken)) {return accessToken;}
@@ -130,42 +107,42 @@
         }
 
         /**
-        * @name Sfdc.canvas.oauth#instance
-        * @function
-        * @description Sets, gets or removes the <code>instance_url</code> cookie <br>
-            <p> This function does one of three things <br>
-            If the 'i' parameter is not passed in, the current value for the <code>instance_url</code> cookie is returned. <br>
-            If the 'i' parameter is null, the <code>instance_url</code> cookie is removed. <br>
-            Otherwise the <code>instance_url</code> cookie value is set to the 'i' parameter and then returned.
-        * @param {String} [i] The value to set as the <code>instance_url</code> cookie
-        * @returns {String} The resulting <code>instance_url</code> cookie value if set, otherwise null
-        */
-        function instance(i) {
+         * @name Sfdc.canvas.oauth#instance
+         * @function
+         * @description Sets, gets or removes the <code>instance_url</code> cookie <br>
+         <p> This function does one of three things <br>
+         If the 'i' parameter is not passed in, the current value for the <code>instance_url</code> cookie is returned. <br>
+         If the 'i' parameter is null, the <code>instance_url</code> cookie is removed. <br>
+         Otherwise the <code>instance_url</code> cookie value is set to the 'i' parameter and then returned.
+         * @param {String} [i] The value to set as the <code>instance_url</code> cookie
+         * @returns {String} The resulting <code>instance_url</code> cookie value if set, otherwise null
+         */
+        function instanceUrl(i) {
             if (arguments.length === 0) {
-                if (!$$.isNil(instanceUrl)) {return instanceUrl;}
-                instanceUrl = $$.cookies.get("instance_url");
+                if (!$$.isNil(instUrl)) {return instUrl;}
+                instUrl = $$.cookies.get("instance_url");
             }
             else if (i === null) {
                 $$.cookies.remove("instance_url");
-                instanceUrl = null;
+                instUrl = null;
             }
             else {
                 $$.cookies.set("instance_url", i);
-                instanceUrl = i;
+                instUrl = i;
             }
-            return instanceUrl;
+            return instUrl;
         }
 
         /**
-        *@private
-        */
-        // Example Results of tha hash....
-        // Name [access_token] Value [00DU0000000Xthw!ARUAQMdYg9ScuUXB5zPLpVyfYQr9qXFO7RPbKf5HyU6kAmbeKlO3jJ93gETlJxvpUDsz3mqMRL51N1E.eYFykHpoda8dPg_z]
-        // Name [instance_url] Value [https://na12.salesforce.com]
-        // Name [id] Value [https://login.salesforce.com/id/00DU0000000XthwMAC/005U0000000e6PoIAI]
-        // Name [issued_at] Value [1331000888967]
-        // Name [signature] Value [LOSzVZIF9dpKvPU07icIDOf8glCFeyd4vNGdj1dhW50]
-        // Name [state] Value [/crazyrefresh.html]
+         *@private
+         */
+            // Example Results of tha hash....
+            // Name [access_token] Value [00DU0000000Xthw!ARUAQMdYg9ScuUXB5zPLpVyfYQr9qXFO7RPbKf5HyU6kAmbeKlO3jJ93gETlJxvpUDsz3mqMRL51N1E.eYFykHpoda8dPg_z]
+            // Name [instance_url] Value [https://na12.salesforce.com]
+            // Name [id] Value [https://login.salesforce.com/id/00DU0000000XthwMAC/005U0000000e6PoIAI]
+            // Name [issued_at] Value [1331000888967]
+            // Name [signature] Value [LOSzVZIF9dpKvPU07icIDOf8glCFeyd4vNGdj1dhW50]
+            // Name [state] Value [/crazyrefresh.html]
         function parseHash(hash) {
             var i, nv, nvp, n, v;
 
@@ -183,17 +160,23 @@
                         token(v);
                     }
                     else if ("instance_url" === n) {
-                         instance(v);
+                        instanceUrl(v);
+                    }
+                    else if ("target_origin" === n) {
+                        tOrigin = decodeURIComponent(v);
+                    }
+                    else if ("instance_id" === n) {
+                        instId = v;
                     }
                 }
             }
         }
-        
+
         /**
-        * @name Sfdc.canvas.oauth#checkChildWindowStatus
-        * @function
-        * @description Refreshes the parent window only if the child window is closed.
-        */
+         * @name Sfdc.canvas.oauth#checkChildWindowStatus
+         * @function
+         * @description Refreshes the parent window only if the child window is closed.
+         */
         function checkChildWindowStatus() {
             if (!childWindow || childWindow.closed) {
                 refresh();
@@ -201,16 +184,16 @@
         }
 
         /**
-        * @name Sfdc.canvas.oauth#childWindowUnloadNotification
-        * @function
-        * @description Parses the hash value that is passed in and sets the 
-            <code>access_token</code> and <code>instance_url</code> cookies if they exist.  Use during 
-            User-Agent OAuth Authentication Flow to pass the OAuth token
-        * @param {String} hash Typically a string of key-value pairs delimited by 
-            the ampersand character.  
-        * @example 
-        * Sfdc.canvas.oauth.childWindowUnloadNotification(self.location.hash);
-        */
+         * @name Sfdc.canvas.oauth#childWindowUnloadNotification
+         * @function
+         * @description Parses the hash value that is passed in and sets the
+         <code>access_token</code> and <code>instance_url</code> cookies if they exist.  Use during
+         User-Agent OAuth Authentication Flow to pass the OAuth token
+         * @param {String} hash Typically a string of key-value pairs delimited by
+         the ampersand character.
+         * @example
+         * Sfdc.canvas.oauth.childWindowUnloadNotification(self.location.hash);
+         */
         function childWindowUnloadNotification(hash) {
             // Here we get notification from child window. Here we can decide if such notification is
             // raised because user closed child window, or because user is playing with F5 key.
@@ -220,38 +203,39 @@
             parseHash(hash);
             setTimeout(window.Sfdc.canvas.oauth.checkChildWindowStatus, 50);
         }
-        
+
         /**
-        * @name Sfdc.canvas.oauth#logout
-        * @function
-        * @description Removes the <code>access_token</code> oauth token from this object.
-        */
+         * @name Sfdc.canvas.oauth#logout
+         * @function
+         * @description Removes the <code>access_token</code> oauth token from this object.
+         */
         function logout() {
             // Remove the oauth token and refresh the browser
             token(null);
-            var home = $$.cookies.get("home");
-            window.location = home || window.location;
+            // @todo: do we want to do this?
+            //var home = $$.cookies.get("home");
+            //window.location = home || window.location;
         }
-        
+
         /**
-        * @name Sfdc.canvas.oauth#loggedin
-        * @function
-        * @description Returns the login state
-        * @returns {Boolean} <code>true</code> if the <code>access_token</code> is available in this JS object.
-        * Note: <code>access tokens</code> (i.e. OAuth tokens) should be stored server side for more durability.
+         * @name Sfdc.canvas.oauth#loggedin
+         * @function
+         * @description Returns the login state
+         * @returns {Boolean} <code>true</code> if the <code>access_token</code> is available in this JS object.
+         * Note: <code>access tokens</code> (i.e. OAuth tokens) should be stored server side for more durability.
          * Never store OAuth tokens in cookies as this can lead to a security risk.
-        */
+         */
         function loggedin() {
             return !$$.isNil(token());
         }
-        
+
         /**
-        * @name Sfdc.canvas.oauth#loginUrl
-        * @function
-        * @description Calculates and returns the url for the OAuth authorization service
-        * @returns {String} The url for the OAuth authorization service or null if there is 
-        *   not a value for loginUrl in the current url's query string.
-        */
+         * @name Sfdc.canvas.oauth#loginUrl
+         * @function
+         * @description Returns the url for the OAuth authorization service
+         * @returns {String} The url for the OAuth authorization service or default if there is
+         *   not a value for loginUrl in the current url's query string.
+         */
         function loginUrl() {
             var i, nvs, nv, q = self.location.search;
 
@@ -266,21 +250,55 @@
                     }
                 }
             }
-            // Maybe throw exception here, otherwise default to something better
-            return null;
+            return "https://login.salesforce.com/services/oauth2/authorize";
+        }
+
+        function targetOrigin(to) {
+
+            if (!$$.isNil(to)) {
+                tOrigin = to;
+                return to;
+            }
+
+            if (!$$.isNil(tOrigin)) {return tOrigin;}
+
+            // This relies on the parent passing it in. This may not be there as the client can do a
+            // redirect or link to another page
+            parseHash(document.location.hash);
+            return tOrigin;
+        }
+
+        function instanceId(id) {
+
+            if (!$$.isNil(id)) {
+                instId = id;
+                return id;
+            }
+
+            if (!$$.isNil(instId)) {return instId;}
+
+            // This relies on the parent passing it in. This may not be there as the client can do a
+            // redirect or link to another page
+            parseHash(document.location.hash);
+            return instId;
+        }
+
+        function client() {
+            return {oauthToken : token(), instanceId : instanceId(), targetOrigin : targetOrigin()};
         }
 
         return {
-             init : init,
-             login : login,
-             logout : logout,
-             loggedin : loggedin,
-             loginUrl : loginUrl,
-             token : token,
-             instance : instance,
-             checkChildWindowStatus : checkChildWindowStatus,
-             childWindowUnloadNotification: childWindowUnloadNotification
-         };
+            init : init,
+            login : login,
+            logout : logout,
+            loggedin : loggedin,
+            loginUrl : loginUrl,
+            token : token,
+            instance : instanceUrl,
+            client : client,
+            checkChildWindowStatus : checkChildWindowStatus,
+            childWindowUnloadNotification: childWindowUnloadNotification
+        };
     }());
 
     $$.module('Sfdc.canvas.oauth', module);
