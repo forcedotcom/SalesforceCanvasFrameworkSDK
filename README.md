@@ -35,22 +35,22 @@ While this SDK contains some very basic java examples, it doesn't contain all th
 
 For other Force.com examples and resource, check out [Force.com](http://Developer.force.com/)
 
-### Pre Requisites
+### Prerequisites
 
-Below are some useful commands and links for your convinience, but before you use them you will need to make sure you have the following software installed on your computer. You can check that [here](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_prereqs.htm|StartTopic=Content%2Fquick_start_prereqs.htm|SkinName=webhelp).
+Below are some useful commands and links for your convinience. Before you use them, you'll need to make sure you have the necessary software installed on your computer [here](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_prereqs.htm|StartTopic=Content%2Fquick_start_prereqs.htm|SkinName=webhelp).
 
-### How to Clone the SDK Repository
+### How to clone the SDK repository
 
 	git clone git@github.com:forcedotcom/SalesforceCanvasFrameworkSDK.git
 
-### How to Build Canvas locally
+### How to build canvas locally
 
-If you prefer, you can build and test your application locally before you push to Heroku or any other server. If you do decide to test locally you will also need to generate a local keystore so you do SSL.
+If you prefer, you can build and test your application locally before you push to Heroku or any other server. If you decide to test locally, you'll also need to generate a local keystore so you can do SSL.
 
     mvn package
     
 ### First time keystore generation 
-Only needed if running locally to support SSL (https). Hekoku uses [piggyback SSL](https://devcenter.heroku.com/articles/ssl) so it is not needed there.
+This is only needed to support SSL (https) when running locally. Heroku uses [piggyback SSL](https://devcenter.heroku.com/articles/ssl) so it's not needed there.
 
       > keytool -keystore keystore -alias jetty -genkey -keyalg RSA
       Enter keystore password: 123456
@@ -75,32 +75,32 @@ Only needed if running locally to support SSL (https). Hekoku uses [piggyback SS
       Re-enter new password: 
 
 
-### How to Run Canvas locally
+### How to run canvas locally
 
-Again, if running and testing locally, this will start your java web server.
+If you're running and testing locally, this will start your Java Web server.
 
     sh target/bin/webapp
 
 ### Canvas URL
 
 
-    If you are running locally 
+    If you're running locally 
     https://localhost:8443/examples/hello-world.jsp
     
-    Or if you are running on Heroku
+    Or if you're running on Heroku
     https://<your-heroku-app>.herokuapp.com/examples/hello-world.jsp
 
-### Canvas Callback URLs
+### Canvas callback URLs
 
-    If you are running locally
+    If you're running locally
     https://localhost:8443/sdk/callback.html
     
-    Or if you are running on Heroku
+    Or if you're running on Heroku
     https://<your-heroku-app>.herokuapp.com/sdk/callback.html
 
 ### How to push new changes to heroku
 
-To commit your changes into your local git repository and push those changes to Heroku, you can do the following. (Note: Your repository name may be diffferent than 'heroku', use git remote -v to confirm)
+To commit your changes into your local git repository and push those changes to Heroku, do the following. Note: Your repository name may be diffferent than 'heroku', use git remote -v to confirm.
 
       git add -A
       git commit -m "My change comments"
@@ -108,7 +108,7 @@ To commit your changes into your local git repository and push those changes to 
 
 ### How to get Heroku logs
 
-To access your logs on Heroku you can perform the following. For more information on Heroku logs click [here](https://devcenter.heroku.com/articles/logging)
+To access your logs on Heroku, use the following command. For more information on Heroku logs click [here](https://devcenter.heroku.com/articles/logging).
 
       heroku logs --tail
 
