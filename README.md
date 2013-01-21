@@ -23,8 +23,7 @@ Master now points to version v27.0 (Spring 2013), Note: Spring 2013 requires a m
 
 Force.com Canvas is a mechanism for consuming third-party applications within Salesforce. Its goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third-party applications with a Java/JavaScript SDK and examples so you can easily integrate canvas-style applications into Salesforce, while developing in the technology and platform of your choice. 
 
-The best place to get started building canvas applications is the [Spring '13 online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf) or the 
-[Winter '13 online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm) (for the previous version).
+The best place to get started building canvas applications is the [Spring '13 online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm) (version 27.0).
 
 Currently, we provide Java and Ruby examples, but you can develop in whatever language you prefer. Most of the integration with Salesforce is through JavaScript and REST. You can also run and test your application locally from your own host, or from [Heroku](http://www.heroku.com/).
 
