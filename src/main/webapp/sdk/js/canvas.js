@@ -348,7 +348,7 @@
             // strings
             //--------
             /**
-            * @description Adds the contents of 2 or more objets to
+            * @description Adds the contents of 2 or more objects to
                 a destination object.
             * @param {Object} dest The destination object to modify.
             * @param {Object} mixin1-n An unlimited number of objects to add to the destination.
