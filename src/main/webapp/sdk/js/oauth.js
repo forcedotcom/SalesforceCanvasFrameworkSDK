@@ -13,7 +13,8 @@
             instUrl,
             instId,
             tOrigin,
-            childWindow;
+            childWindow,
+            interval;
 
         function init() {
             // Get the access token from the cookie (needed to survive refresh),
@@ -71,15 +72,32 @@
          * }
          */
         function login(ctx) {
-            var uri;
+            var uri, useInterval;
 
             ctx = ctx || {};
             uri = ctx.uri || "/rest/oauth2";
+            useInterval = ctx.useInterval || false;
             ctx.params = ctx.params || {state : ""};
             ctx.params.state = ctx.params.state || ctx.callback || window.location.pathname;  // @TODO REVIEW THIS
             ctx.params.display= ctx.params.display || 'popup';
             uri = uri + query(ctx.params);
-            childWindow = window.open(uri, 'OAuth', 'status=0,toolbar=0,menubar=0,resizable=0,scrollbars=1,top=50,left=50,height=500,width=680');
+            childWindow = window.open(uri, '_blank', 'status=0,toolbar=0,menubar=0,resizable=0,scrollbars=1,top=50,left=50,height=500,width=680');
+            
+            if (useInterval) {
+                interval = window.setInterval((function() {
+                    if (childWindow.location) {
+                        if (childWindow.location.hash && childWindow.location.hash.indexOf('access_token') !== -1) {
+                            window.clearInterval(interval);
+                            parseHash(childWindow.location.hash);
+                            childWindow.close();
+                            refresh();
+                        }
+                    } else {
+                        // window closed?
+                        window.clearInterval(interval);
+                    }
+                }), 1000)
+            }
         }
 
         /**
