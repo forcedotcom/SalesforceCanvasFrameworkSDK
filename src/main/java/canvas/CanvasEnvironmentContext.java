@@ -26,6 +26,9 @@
 
 package canvas;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -36,6 +39,7 @@ public class CanvasEnvironmentContext {
     private String uiTheme;
     private Dimensions dimensions;
     private SystemVersion version;
+    private Map<String,Object> parameters;
 
     /**
      * Returns the url of the current location.
@@ -81,6 +85,19 @@ public class CanvasEnvironmentContext {
     @JsonProperty("version")
     public void setSystemVersion(SystemVersion systemVersion) {
         this.version = systemVersion;
+    }
+
+    @JsonProperty("parameters")
+    public Map<String, Object> getParameters() {
+        if (null == this.parameters){
+            this.parameters = new HashMap<String, Object>();
+        }
+        return this.parameters;
+    }
+
+    @JsonProperty("parameters")
+    public void setParameters(Map<String, Object> parameters) {
+        this.parameters = parameters;
     }
 
     @Override
