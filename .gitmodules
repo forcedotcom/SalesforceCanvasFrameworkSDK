@@ -1,3 +1,3 @@
 [submodule "src/main/webapp/sdk"]
 	path = src/main/webapp/sdk
-	url = git@github.com:forcedotcom/SalesforceCanvasJavascriptSDK.git
+	url = git://github.com:forcedotcom/SalesforceCanvasJavascriptSDK.git
