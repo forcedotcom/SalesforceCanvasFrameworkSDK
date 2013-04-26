@@ -1,4 +1,4 @@
-Salesforce Force.com Canvas SDK 2013
+Salesforce Force.com Canvas SDK
 ============================
 
 
@@ -18,6 +18,10 @@ Master now points to version v27.0 (Spring 2013), Note: Spring 2013 requires a m
 	
 	// Check out the previous version
 	git checkout v26.0
+
+The Force.com Canvas Summer '13 (v.28.0) preview documentation is now available:
+  - [Release Notes](https://na1.salesforce.com/help/doc/en/salesforce_summer13_release_notes.pdf)
+  - [Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf)
 
 ###Introduction
 
