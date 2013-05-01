@@ -9,6 +9,7 @@
         return;
     }
     String yourConsumerSecret=System.getenv("CANVAS_CONSUMER_SECRET");
+    //String yourConsumerSecret="1818663124211010887";
     String signedRequestJson = SignedRequest.verifyAndDecodeAsJson(signedRequest[0], yourConsumerSecret);
 %>
 
@@ -18,7 +19,7 @@
 
     <title>Hello World Canvas Example</title>
 
-    <link rel="stylesheet" type="text/css" href="/sdk/css/connect.css" />
+    <link rel="stylesheet" type="text/css" href="/sdk/css/canvas.css" />
 
     <!-- Include all the canvas JS dependencies in one file -->
     <script type="text/javascript" src="/sdk/js/canvas-all.js"></script>
