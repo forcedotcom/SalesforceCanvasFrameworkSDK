@@ -19,6 +19,10 @@ Master now points to version v27.0 (Spring 2013), Note: Spring 2013 requires a m
 	// Check out the previous version
 	git checkout v26.0
 
+The Force.com Canvas Summer '13 (v.28.0) preview documentation is now available:
+  - [Release Notes](https://na1.salesforce.com/help/doc/en/salesforce_summer13_release_notes.pdf)
+  - [Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf)
+
 ###Introduction
 
 Force.com Canvas is a mechanism for consuming third-party applications within Salesforce. Its goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third-party applications with a Java/JavaScript SDK and examples so you can easily integrate canvas-style applications into Salesforce, while developing in the technology and platform of your choice. 
