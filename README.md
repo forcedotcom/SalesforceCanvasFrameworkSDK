@@ -1,14 +1,9 @@
 Salesforce Force.com Canvas SDK
 ============================
 
-
-####Note
-
-The Force.com Canvas feature is currently available through a pilot program. For information on enabling it for your organization, contact salesforce.com. Any unreleased services or features referenced in this or other press releases or public statements are not currently available and may not be delivered on time or at all. Customers who purchase our services should make their purchase decisions based upon features that are currently available. More information about our safe habor statement can be found on our [website](http://www.salesforce.com/company/investor/safe_harbor.jsp). 
-
 ### Version
 
-Master now points to version v27.0 (Spring 2013), Note: Spring 2013 requires a mandatory upgrade and some small coding changes, please see the [release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). If you still need the previous release: 
+Master now points to version v28.0 (Summer '13), Note: Version 27.0 (Spring '13) required a mandatory upgrade and some small coding changes, please see the [Spring '13 release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). If you still need the previous release: 
 	
 	// Clone the entire repository
 	git clone git@github.com:forcedotcom/SalesforceCanvasFrameworkSDK.git
@@ -19,15 +14,11 @@ Master now points to version v27.0 (Spring 2013), Note: Spring 2013 requires a m
 	// Check out the previous version
 	git checkout v26.0
 
-The Force.com Canvas Summer '13 (v.28.0) preview documentation is now available:
-  - [Release Notes](https://na1.salesforce.com/help/doc/en/salesforce_summer13_release_notes.pdf)
-  - [Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf)
-
 ###Introduction
 
 Force.com Canvas is a mechanism for consuming third-party applications within Salesforce. Its goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third-party applications with a Java/JavaScript SDK and examples so you can easily integrate canvas-style applications into Salesforce, while developing in the technology and platform of your choice. 
 
-The best place to get started building canvas applications is the [Spring '13 online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm) (version 27.0).
+The best place to get started building canvas applications is the [online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm).
 
 Currently, we provide Java and Ruby examples, but you can develop in whatever language you prefer. Most of the integration with Salesforce is through JavaScript and REST. You can also run and test your application locally from your own host, or from [Heroku](http://www.heroku.com/).
 
@@ -36,7 +27,12 @@ Currently, we provide Java and Ruby examples, but you can develop in whatever la
 
 While this SDK contains some very basic Java examples, it doesn't contain all the examples. We recommend you explore the [Heroku Quick Start](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_simple_create_app.htm|StartTopic=Content%2Fquick_start_simple_create_app.htm|SkinName=webhelp), for additional examples in Java and other languages.
 
-For other examples and resources, check out [Force.com](http://Developer.force.com/)
+For other examples and resources, check out [DeveloperForce.com](http://wiki.developerforce.com/page/Force.com_Canvas)
+
+### Documentation
+The Force.com Canvas Summer '13 (v.28.0) documentation:
+  - [Release Notes](https://na1.salesforce.com/help/doc/en/salesforce_summer13_release_notes.pdf)
+  - [Force.com Canvas Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connect/canvas_framework.pdf)
 
 ### Prerequisites
 
@@ -115,5 +111,9 @@ To access your logs on Heroku, use the following command. For more information o
 
       heroku logs --tail
 
-
+### Versions
+- 28.0 (Summer '13)
+- 27.0 (Spring '13 - pilot)
+- 26.0 (Winter '12 - pilot)
+         
 
