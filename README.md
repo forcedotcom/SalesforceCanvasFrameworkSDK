@@ -41,6 +41,8 @@ Below are some useful commands and links for your convenience. Before you use th
 ### How to clone the SDK repository
 
 	git clone git@github.com:forcedotcom/SalesforceCanvasFrameworkSDK.git
+	git submodule init
+	git submodule update
 
 ### How to build canvas locally
 
