@@ -20,12 +20,12 @@ Force.com Canvas is a mechanism for consuming third-party applications within Sa
 
 The best place to get started building canvas applications is the [online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm).
 
-Currently, we provide Java and Ruby examples, but you can develop in whatever language you prefer. Most of the integration with Salesforce is through JavaScript and REST. You can also run and test your application locally from your own host, or from [Heroku](http://www.heroku.com/).
+Currently, we provide Java examples in this repository, but you can develop in whatever language you prefer. Most of the integration with Salesforce is through JavaScript and REST. You can also run and test your application locally from your own host, or from [Heroku](http://www.heroku.com/).
 
 
 ### Examples
 
-While this SDK contains some very basic Java examples, it doesn't contain all the examples. We recommend you explore the [Heroku Quick Start](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_simple_create_app.htm|StartTopic=Content%2Fquick_start_simple_create_app.htm|SkinName=webhelp), for additional examples in Java and other languages.
+While this SDK contains some very basic Java examples, it doesn't contain all the examples. We recommend you explore the [Heroku Quick Start](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_simple_create_app.htm|StartTopic=Content%2Fquick_start_simple_create_app.htm|SkinName=webhelp), for additional examples in Java and Ruby.
 
 For other examples and resources, check out [DeveloperForce.com](http://wiki.developerforce.com/page/Force.com_Canvas)
 
