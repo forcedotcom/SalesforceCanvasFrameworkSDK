@@ -3,7 +3,7 @@ Salesforce Force.com Canvas SDK
 
 ### Version
 
-Master now points to version v28.0 (Summer '13), Note: Version 27.0 (Spring '13) required a mandatory upgrade and some small coding changes, please see the [Spring '13 release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). If you still need the previous release: 
+Master now points to version v28.0 (Summer '13), Note: Version 27.0 (Spring '13) required a mandatory upgrade and some small coding changes, please see the [Spring '13 release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). Use these commands if you still need a previous release (specify the version you need): 
 	
 	// Clone the entire repository
 	git clone git@github.com:forcedotcom/SalesforceCanvasFrameworkSDK.git
@@ -25,7 +25,7 @@ Currently, we provide Java examples in this repository, but you can develop in w
 
 ### Examples
 
-While this SDK contains some very basic Java examples, it doesn't contain all the examples. We recommend you explore the [Heroku Quick Start](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_simple_create_app.htm|StartTopic=Content%2Fquick_start_simple_create_app.htm|SkinName=webhelp), for additional examples in Java and Ruby.
+This SDK contains some basic Java examples. We recommend you explore the [Heroku Quick Start](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_simple_create_app.htm|StartTopic=Content%2Fquick_start_simple_create_app.htm|SkinName=webhelp), for additional examples in Java and Ruby.
 
 For other examples and resources, check out [DeveloperForce.com](http://wiki.developerforce.com/page/Force.com_Canvas)
 
@@ -99,9 +99,9 @@ If you're running and testing locally, this will start your Java Web server.
     Or if you're running on Heroku
     https://<your-heroku-app>.herokuapp.com/sdk/callback.html
 
-### How to push new changes to heroku
+### How to push new changes to Heroku
 
-To commit your changes into your local git repository and push those changes to Heroku, do the following. Note: Your repository name may be diffferent than 'heroku', use git remote -v to confirm.
+To commit your changes into your local git repository and push those changes to Heroku, use these commands. Note that your repository name may be diffferent than 'heroku', use git remote -v to confirm.
 
       git add -A
       git commit -m "My change comments"
