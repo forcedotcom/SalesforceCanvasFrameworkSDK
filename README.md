@@ -86,10 +86,10 @@ If you're running and testing locally, this will start your Java Web server.
 
 
     If you're running locally 
-    https://localhost:8443/examples/hello-world.jsp
+    https://localhost:8443/examples/hello-world/index.jsp
     
     Or if you're running on Heroku
-    https://<your-heroku-app>.herokuapp.com/examples/hello-world.jsp
+    https://<your-heroku-app>.herokuapp.com/examples/hello-world/index.jsp
 
 ### Canvas callback URLs
 
