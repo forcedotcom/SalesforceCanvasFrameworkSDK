@@ -114,6 +114,7 @@ To access your logs on Heroku, use the following command. For more information o
       heroku logs --tail
 
 ### Versions
+- 29.0 (Winter '14)
 - 28.0 (Summer '13)
 - 27.0 (Spring '13 - pilot)
 - 26.0 (Winter '12 - pilot)
