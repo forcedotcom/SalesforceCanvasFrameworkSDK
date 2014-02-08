@@ -3,7 +3,7 @@ Salesforce Force.com Canvas SDK
 
 ### Version
 
-Master now points to version v29.0 (Winter '14), Note: Version 27.0 (Spring '13) required a mandatory upgrade and some small coding changes, please see the [Spring '13 release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). Use these commands if you still need a previous release (specify the version you need): 
+Master now points to version v30.0 (Summer '14), Note: Version 27.0 (Spring '13) required a mandatory upgrade and some small coding changes, please see the [Spring '13 release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). Use these commands if you still need a previous release (specify the version you need): 
 	
 	// Clone the entire repository
 	git clone git@github.com:forcedotcom/SalesforceCanvasFrameworkSDK.git
@@ -30,9 +30,9 @@ This SDK contains some basic Java examples. We recommend you explore the [Heroku
 For other examples and resources, check out [DeveloperForce.com](http://wiki.developerforce.com/page/Force.com_Canvas)
 
 ### Documentation
-The Force.com Canvas Winter '14 (v.29.0) documentation:
-  - [Release Notes](https://na1.salesforce.com/help/doc/en/salesforce_winter14_release_notes.pdf)
-  - [Force.com Canvas Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connect/canvas_framework.pdf)
+The Force.com Canvas Summer '14 (v.30.0) documentation:
+  - [Release Notes](http://releasenotes.docs.salesforce.com/en-us/spring14/release-notes/rn_forcecom_canvas_pub_feed_ga.htm)
+  - [Force.com Canvas Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf)
 
 ### Prerequisites
 
@@ -114,6 +114,7 @@ To access your logs on Heroku, use the following command. For more information o
       heroku logs --tail
 
 ### Versions
+- 30.0 (Summer -14)
 - 29.0 (Winter '14)
 - 28.0 (Summer '13)
 - 27.0 (Spring '13 - pilot)
