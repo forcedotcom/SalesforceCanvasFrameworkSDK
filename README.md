@@ -3,7 +3,7 @@ Salesforce Force.com Canvas SDK
 
 ### Version
 
-Master now points to version v31.0 (Summer '14), Note: Version 27.0 (Spring '13) required a mandatory upgrade and some small coding changes, please see the [Spring '13 release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). Use these commands if you still need a previous release (specify the version you need): 
+Master now points to version v32.0 (Winter '15), Note: Version 27.0 (Spring '13)required a mandatory upgrade and some small coding changes, please see the [Spring '13 release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). Use these commands if you still need a previous release (specify the version you need): 
 	
 	// Clone the entire repository
 	git clone git@github.com:forcedotcom/SalesforceCanvasFrameworkSDK.git
