@@ -30,8 +30,8 @@ This SDK contains some basic Java examples. We recommend you explore the [Heroku
 For other examples and resources, check out [DeveloperForce.com](http://wiki.developerforce.com/page/Force.com_Canvas)
 
 ### Documentation
-The Force.com Canvas Summer '14 (v.31.0) documentation:
-  - [Release Notes](http://releasenotes.docs.salesforce.com/en-us/spring14/release-notes/rn_forcecom_canvas_pub_feed_ga.htm)
+The Force.com Canvas Winter '15 (v.32.0) documentation:
+  - [Release Notes](http://docs.releasenotes.salesforce.com/en-us/winter15/release-notes/rn_included_release_notes.htm)
   - [Force.com Canvas Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf)
 
 ### Prerequisites
@@ -115,6 +115,7 @@ To access your logs on Heroku, use the following command. For more information o
       heroku logs --tail
 
 ### Versions
+- 32.0 (Winter '15)
 - 31.0 (Summer '14)
 - 30.0 (Spring '14)
 - 29.0 (Winter '14)
