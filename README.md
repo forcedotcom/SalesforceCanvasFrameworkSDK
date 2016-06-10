@@ -3,7 +3,7 @@ Salesforce Force.com Canvas SDK
 
 ### Version
 
-Master now points to version v34.0 (Summer '15), Note: Version 27.0 (Spring '13) required a mandatory upgrade and some small coding changes, please see the [Spring '13 release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). Use these commands if you still need a previous release (specify the version you need): 
+Master now points to version v37.0 (Summer '16), Note: Version 27.0 (Spring '13) required a mandatory upgrade and some small coding changes, please see the [Spring '13 release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). Use these commands if you still need a previous release (specify the version you need): 
 	
 	// Clone the entire repository
 	git clone git@github.com:forcedotcom/SalesforceCanvasFrameworkSDK.git
@@ -12,7 +12,7 @@ Master now points to version v34.0 (Summer '15), Note: Version 27.0 (Spring '13)
 	git tag
 	
 	// Check out the previous version
-	git checkout v33.0
+	git checkout v36.0
 
 ###Introduction
 
@@ -30,8 +30,8 @@ This SDK contains some basic Java examples. We recommend you explore the [Heroku
 For other examples and resources, check out [DeveloperForce.com](http://wiki.developerforce.com/page/Force.com_Canvas)
 
 ### Documentation
-The Force.com Canvas Summer '15 (v.34.0) documentation:
-  - [Release Notes](http://docs.releasenotes.salesforce.com/en-us/summer15/release-notes/salesforce_release_notes.htm)
+The Force.com Canvas Summer '16 (v.37.0) documentation:
+  - [Release Notes](http://docs.releasenotes.salesforce.com/en-us/summer16/release-notes/salesforce_release_notes.htm)
   - [Force.com Canvas Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf)
 
 ### Prerequisites
@@ -115,6 +115,9 @@ To access your logs on Heroku, use the following command. For more information o
       heroku logs --tail
 
 ### Versions
+- 37.0 (Summer '16)
+- 36.0 (Spring '16)
+- 35.0 (Winter '16)
 - 34.0 (Summer '15)
 - 33.0 (Spring '15)
 - 32.0 (Winter '15)
