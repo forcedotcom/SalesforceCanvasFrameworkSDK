@@ -26,10 +26,10 @@
 
 package canvas;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import org.apache.commons.codec.binary.Base64;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectReader;
-import org.codehaus.jackson.type.TypeReference;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
