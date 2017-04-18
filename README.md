@@ -14,7 +14,7 @@ Master now points to version v38.0 (Winter '17), Note: Version 27.0 (Spring '13)
 	// Check out the previous version
 	git checkout v37.0
 
-###Introduction
+### Introduction
 
 Force.com Canvas is a mechanism for consuming third-party applications within Salesforce. Its goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third-party applications with a Java/JavaScript SDK and examples so you can easily integrate canvas-style applications into Salesforce, while developing in the technology and platform of your choice. 
 
