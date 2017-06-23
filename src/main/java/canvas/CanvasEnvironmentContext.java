@@ -29,6 +29,8 @@ package canvas;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonAnyGetter;
+import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -39,6 +41,7 @@ public class CanvasEnvironmentContext {
     private String uiTheme;
     private Dimensions dimensions;
     private SystemVersion version;
+    private Record record;
     private Map<String,Object> parameters;
 
     /**
@@ -85,6 +88,19 @@ public class CanvasEnvironmentContext {
     @JsonProperty("version")
     public void setSystemVersion(SystemVersion systemVersion) {
         this.version = systemVersion;
+    }
+    
+    @JsonProperty("record")
+    public Record getRecord() {
+        if (record == null) {
+            record = new Record();
+        }
+        return record;
+    }
+
+    @JsonProperty("record")
+    public void setRecord(Record r) {
+        record = r;
     }
 
     @JsonProperty("parameters")
@@ -181,4 +197,57 @@ public class CanvasEnvironmentContext {
 
     }
 
+    @JsonIgnoreProperties(ignoreUnknown=true)
+    public static class Record {
+
+        private RecordAttributes attributes;
+        private Map<String, String> fields = new HashMap<>();
+
+        @JsonProperty("attributes")
+        public RecordAttributes getAttributes() {
+            return attributes;
+        }
+
+        @JsonProperty("attributes")
+        public void setAttributes(RecordAttributes attributes) {
+            this.attributes = attributes;
+        }
+
+        @JsonAnyGetter
+        public Map<String,String> getFields() {
+            return fields;
+        }
+
+        @JsonAnySetter
+        public void setField(String key, String value) {
+            fields.put(key, value);
+        }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown=true)
+    public static class RecordAttributes {
+
+        private String type;
+        private String url;
+
+        @JsonProperty("type")
+        public String getType() {
+            return type;
+        }
+
+        @JsonProperty("type")
+        public void setType(String t) {
+            type = t;
+        }
+
+        @JsonProperty("url")
+        public String getUrl() {
+            return url;
+        }
+
+        @JsonProperty("url")
+        public void setUrl(String u) {
+            url = u;
+        }
+    }
 }
