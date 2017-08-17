@@ -1,19 +1,6 @@
 Salesforce Force.com Canvas SDK
 ============================
 
-### Version
-
-Master now points to version v38.0 (Winter '17), Note: Version 27.0 (Spring '13) required a mandatory upgrade and some small coding changes, please see the [Spring '13 release notes](https://na1.salesforce.com/help/doc/en/salesforce_spring13_release_notes.pdf) and the examples). Use these commands if you still need a previous release (specify the version you need): 
-	
-	// Clone the entire repository
-	git clone git@github.com:forcedotcom/SalesforceCanvasFrameworkSDK.git
-	
-	// List the Tags
-	git tag
-	
-	// Check out the previous version
-	git checkout v37.0
-
 ### Introduction
 
 Force.com Canvas is a mechanism for consuming third-party applications within Salesforce. Its goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third-party applications with a Java/JavaScript SDK and examples so you can easily integrate canvas-style applications into Salesforce, while developing in the technology and platform of your choice. 
@@ -30,9 +17,7 @@ This SDK contains some basic Java examples. We recommend you explore the [Heroku
 For other examples and resources, check out [DeveloperForce.com](http://wiki.developerforce.com/page/Force.com_Canvas)
 
 ### Documentation
-The Force.com Canvas Winter '17 (v.38.0) documentation:
-  - [Release Notes](http://docs.releasenotes.salesforce.com/en-us/winter17/release-notes/salesforce_release_notes.htm)
-  - [Force.com Canvas Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf)
+The [Force.com Canvas Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf) is a good resource.
 
 ### Prerequisites
 
@@ -113,20 +98,3 @@ To commit your changes into your local git repository and push those changes to 
 To access your logs on Heroku, use the following command. For more information on Heroku logs click [here](https://devcenter.heroku.com/articles/logging).
 
       heroku logs --tail
-
-### Versions
-- 38.0 (Winter '17)
-- 37.0 (Summer '16)
-- 36.0 (Spring '16)
-- 35.0 (Winter '16)
-- 34.0 (Summer '15)
-- 33.0 (Spring '15)
-- 32.0 (Winter '15)
-- 31.0 (Summer '14)
-- 30.0 (Spring '14)
-- 29.0 (Winter '14)
-- 28.0 (Summer '13)
-- 27.0 (Spring '13 - pilot)
-- 26.0 (Winter '12 - pilot)
-         
-
