@@ -8,8 +8,8 @@
         This App must be invoked via a signed request!<%
         return;
     }
-    String yourConsumerSecret=System.getenv("CANVAS_CONSUMER_SECRET");
-    //String yourConsumerSecret="1818663124211010887";
+    //String yourConsumerSecret=System.getenv("CANVAS_CONSUMER_SECRET");
+    String yourConsumerSecret="83E39DDE931EE0148C7701C3CF5C615B989AEF610675790199F0BF560FE56C9E";
     String signedRequestJson = SignedRequest.verifyAndDecodeAsJson(signedRequest[0], yourConsumerSecret);
 %>
 
@@ -29,7 +29,7 @@
     <script>
         if (self === top) {
             // Not in Iframe
-            alert("This canvas app must be included within an iframe");
+            alert("This canvas app must be included within an iframe-Change");
         }
 
         Sfdc.canvas(function() {
