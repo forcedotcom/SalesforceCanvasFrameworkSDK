@@ -5,23 +5,20 @@ Salesforce Force.com Canvas SDK
 
 Force.com Canvas is a mechanism for consuming third-party applications within Salesforce. Its goal is to connect applications at a UI level instead of just an API level. The purpose of this GitHub repository is to provide third-party applications with a Java/JavaScript SDK and examples so you can easily integrate canvas-style applications into Salesforce, while developing in the technology and platform of your choice. 
 
-The best place to get started building canvas applications is the [online developer's guide](http://www.salesforce.com/us/developer/docs/platform_connect/index.htm).
+The best place to get started building canvas applications is the [online developer guide][1].
 
 Currently, we provide Java examples in this repository, but you can develop in whatever language you prefer. Most of the integration with Salesforce is through JavaScript and REST. You can also run and test your application locally from your own host, or from [Heroku](http://www.heroku.com/).
 
 
 ### Examples
 
-This SDK contains some basic Java examples. We recommend you explore the [Heroku Quick Start](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_simple_create_app.htm|StartTopic=Content%2Fquick_start_simple_create_app.htm|SkinName=webhelp), for additional examples in Java and Ruby.
+This SDK contains some basic Java examples. We recommend you explore the [Heroku Quick Start][2], for additional examples in Java and Ruby.
 
-For other examples and resources, check out [DeveloperForce.com](http://wiki.developerforce.com/page/Force.com_Canvas)
-
-### Documentation
-The [Force.com Canvas Developer's Guide](http://www.salesforce.com/us/developer/docs/platform_connectpre/canvas_framework.pdf) is a good resource.
+For other examples and resources, check out the [developer guide][1].
 
 ### Prerequisites
 
-Below are some useful commands and links for your convenience. Before you use them, you'll need to make sure you have the necessary software installed on your computer [here](http://www.salesforce.com/us/developer/docs/platform_connect/index_Left.htm#CSHID=quick_start_prereqs.htm|StartTopic=Content%2Fquick_start_prereqs.htm|SkinName=webhelp).
+Below are some useful commands and links for your convenience. Before you use them, you'll need to make sure you have the necessary software installed on your computer [here][3].
 
 ### How to clone the SDK repository
 
@@ -70,7 +67,6 @@ If you're running and testing locally, this will start your Java Web server.
 
 ### Canvas URL
 
-
     If you're running locally 
     https://localhost:8443/examples/hello-world/index.jsp
     
@@ -98,3 +94,7 @@ To commit your changes into your local git repository and push those changes to 
 To access your logs on Heroku, use the following command. For more information on Heroku logs click [here](https://devcenter.heroku.com/articles/logging).
 
       heroku logs --tail
+
+[1]: https://developer.salesforce.com/docs/atlas.en-us.platform_connect.meta/platform_connect/canvas_framework_intro.htm
+[2]: https://developer.salesforce.com/docs/atlas.en-us.platform_connect.meta/platform_connect/quick_start_simple_intro.htm
+[3]: https://developer.salesforce.com/docs/atlas.en-us.platform_connect.meta/platform_connect/quick_start_prereqs.htm
