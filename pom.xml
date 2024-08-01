@@ -11,7 +11,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tomcat.version>8.5.23</tomcat.version>
+        <tomcat.version>8.5.99</tomcat.version>
     </properties>
 
     <dependencies>
