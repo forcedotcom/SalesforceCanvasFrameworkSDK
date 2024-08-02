@@ -44,6 +44,7 @@ public class Main {
      */
     public static void main(String[] args) throws Exception{
 
+
         boolean heroku = false;
         // A hacky way to determine if we are running on heroku or not
         String basedir = (String)System.getProperty("basedir");
