@@ -24,11 +24,23 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVE
 POSSIBILITY OF SUCH DAMAGE.
 */
 
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.bio.SocketConnector;
-import org.eclipse.jetty.server.ssl.SslSocketConnector;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.apache.catalina.WebResourceRoot;
+import org.apache.catalina.core.StandardContext;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.webresources.DirResourceSet;
+import org.apache.catalina.webresources.StandardRoot;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.connector.Connector;
+import org.apache.coyote.http11.AbstractHttp11Protocol;
+import org.apache.catalina.Context;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.connector.Connector;
+import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.tomcat.util.scan.StandardJarScanner;
+import java.io.File;
 
 /**
  * 
@@ -52,44 +64,60 @@ public class Main {
         }
 
         if (!heroku) {
-
-            System.out.println("Looks like we are NOT running on heroku.");
+            System.out.println("Looks like we are NOT running on Heroku.");
 
             String webappDirLocation = "src/main/webapp/";
 
             String webPort = System.getenv("PORT");
-            if(webPort == null || webPort.isEmpty()) {
+            if (webPort == null || webPort.isEmpty()) {
                 webPort = "8080";
             }
+
             String sslPort = System.getenv("SSLPORT");
-            if(sslPort == null || sslPort.isEmpty()) {
+            if (sslPort == null || sslPort.isEmpty()) {
                 sslPort = System.getenv("SSL_PORT");
-                if(sslPort == null || sslPort.isEmpty()) {
+                if (sslPort == null || sslPort.isEmpty()) {
                     sslPort = "8443";
                 }
             }
 
-            Server server = new Server(Integer.valueOf(Integer.valueOf(webPort)));
+            Tomcat tomcat = new Tomcat();
+            tomcat.setPort(Integer.parseInt(webPort));
 
-            SocketConnector connector = new SocketConnector();
-            connector.setPort(Integer.valueOf(webPort));
+            // HTTP Connector
+            Connector httpConnector = new Connector("HTTP/1.1");
+            httpConnector.setPort(Integer.parseInt(webPort));
+            tomcat.getService().addConnector(httpConnector);
 
-            SslSocketConnector sslConnector = new SslSocketConnector();
-            sslConnector.setPort(Integer.valueOf(sslPort));
-            sslConnector.setKeyPassword("123456");
-            sslConnector.setKeystore("keystore");
+            // HTTPS Connector
+            Connector httpsConnector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+            httpsConnector.setPort(Integer.parseInt(sslPort));
+            httpsConnector.setSecure(true);
+            httpsConnector.setScheme("https");
+            httpsConnector.setAttribute("keyAlias", "jetty2");
+            httpsConnector.setAttribute("keystorePass", "123456");
+            httpsConnector.setAttribute("keystoreFile", "keystore");
+            httpsConnector.setAttribute("clientAuth", "false");
+            httpsConnector.setAttribute("sslProtocol", "TLS");
+            httpsConnector.setAttribute("SSLEnabled", true);
+            tomcat.getService().addConnector(httpsConnector);
 
-            server.setConnectors(new Connector[] { sslConnector, connector });
-            WebAppContext root = new WebAppContext();
+            // Set the default connector to HTTP
+            tomcat.setConnector(httpConnector);
 
-            root.setContextPath("/");
-            root.setDescriptor(webappDirLocation+"/WEB-INF/web.xml");
-            root.setResourceBase(webappDirLocation);
-            root.setParentLoaderPriority(true);
+            // Add the web application context
+            StandardContext ctx = (StandardContext) tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
+            System.out.println("configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath());
 
-            server.setHandler(root);
-            server.start();
-            server.join();
+            File additionWebInfClasses = new File("target/classes");
+            WebResourceRoot resources = new StandardRoot(ctx);
+            resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes",
+                    additionWebInfClasses.getAbsolutePath(), "/"));
+            ctx.setResources(resources);
+
+
+            tomcat.start();
+            tomcat.getServer().await();
         }
         else {
 
@@ -105,24 +133,24 @@ public class Main {
                 webPort = "8080";
             }
 
-            Server server = new Server(Integer.valueOf(webPort));
-            WebAppContext root = new WebAppContext();
+            Tomcat tomcat = new Tomcat();
+            tomcat.setPort(Integer.valueOf(webPort));
 
-            root.setContextPath("/");
-            root.setDescriptor(webappDirLocation+"/WEB-INF/web.xml");
-            root.setResourceBase(webappDirLocation);
+            Connector conn = new Connector();
+            conn.setPort(Integer.valueOf(webPort));
+            tomcat.setConnector(conn);
 
-            //Parent loader priority is a class loader setting that Jetty accepts.
-            //By default Jetty will behave like most web containers in that it will
-            //allow your application to replace non-server libraries that are part of the
-            //container. Setting parent loader priority to true changes this behavior.
-            //Read more here: http://wiki.eclipse.org/Jetty/Reference/Jetty_Classloading
-            root.setParentLoaderPriority(true);
+            StandardContext ctx = (StandardContext) tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
+            System.out.println("configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath());
 
-            server.setHandler(root);
+            File additionWebInfClasses = new File("target/classes");
+            WebResourceRoot resources = new StandardRoot(ctx);
+            resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes",
+                    additionWebInfClasses.getAbsolutePath(), "/"));
+            ctx.setResources(resources);
 
-            server.start();
-            server.join();
+            tomcat.start();
+            tomcat.getServer().await();
         }
     }
 
